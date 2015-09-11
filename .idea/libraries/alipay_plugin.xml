@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="alipay_plugin">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/alipay/proj.android/sdk/alipay_plugin.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

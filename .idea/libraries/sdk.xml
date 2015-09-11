@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="sdk">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/qh360/proj.android/sdk/upomp_bypay_lib.jar!/" />
+      <root url="jar://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/qh360/proj.android/sdk/zsht_app_360game.jar!/" />
+      <root url="jar://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/qh360/proj.android/sdk/annotations.jar!/" />
+      <root url="jar://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/qh360/proj.android/sdk/360SDK.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

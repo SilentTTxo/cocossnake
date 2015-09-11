@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="sdk3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/facebookads/proj.android/sdk/android-support-v4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/facebookads/proj.android/sdk/AudienceNetwork.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
