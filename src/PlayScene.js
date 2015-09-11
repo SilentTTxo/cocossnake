@@ -32,8 +32,8 @@ var PlayLayer = cc.Layer.extend({
             //rotation: 180
         });
         this.addChild(this.bgSprite, 0);
-        this.addFood();
         this.addHead();
+        this.addFood();
         var Head = this.getChildByTag(0);
         this.schedule(this.update);
         this.schedule(this.bodyMove,0.08,BODYMOVE_TAG);
@@ -121,32 +121,60 @@ var PlayLayer = cc.Layer.extend({
         var size = cc.winSize;
 
         //cc.log("height="+Food.height+"width="+Food.width);
-        var x = size.width*cc.random0To1();
-        if (x < Food1.width/2) x = Food1.width/2;
-        if (x > size.width-Food1.width/2) x = size.width-Food1.width/2;
-        var y = size.height*cc.random0To1();
-        if (y < Food1.height/2+size.height/6) y = Food1.height/2+size.height/6;
-        if (y > -Food1.height/2+size.height) y = -Food1.height/2+size.height;
+        function RandomXY(){
+            var x = size.width*cc.random0To1();
+            if (x < Food1.width/2) x = Food1.width/2;
+            if (x > size.width-Food1.width/2) x = size.width-Food1.width/2;
+            var y = size.height*cc.random0To1();
+            if (y < Food1.height/2+size.height/6) y = Food1.height/2+size.height/6;
+            if (y > -Food1.height/2+size.height) y = -Food1.height/2+size.height;
+            return cc.p(x,y)
+        }
+        var xy = RandomXY();
         Food1.attr({
-            x: x,
-            y: y
+            x: xy.x,
+            y: xy.y
         });
+        for(bodyi = 0;bodyi < BodyNum; bodyi++){
+            if(cc.rectIntersectsRect(Food1.getBoundingBox(),Body[bodyi].getBoundingBox())){
+                bodyi = 0;
+                var xy = RandomXY();
+                Food1.attr({
+                    x: xy.x,
+                    y: xy.y
+                });
+            }
+        }
         FOOD1_TAG++;
         Food1.setOpacity(0);
         this.addChild(Food1,5,FOOD1_TAG);
         Food1.runAction(cc.FadeIn.create(0.2));
-        do{
-            var x = size.width*cc.random0To1();
-            if (x < Food2.width/2) x = Food2.width/2;
-            if (x > size.width-Food2.width/2) x = size.width-Food2.width/2;
-            var y = size.height*cc.random0To1();
-            if (y < Food2.height/2+size.height/6) y = Food2.height/2+size.height/6;
-            if (y > -Food2.height/2+size.height) y = -Food2.height/2+size.height;
-            Food2.attr({
-                x: x,
-                y: y
-            });
-        }while(cc.rectIntersectsRect(Food1.getBoundingBox(),Food2.getBoundingBox()));
+        var xy = RandomXY();
+        Food2.attr({
+            x: xy.x,
+            y: xy.y
+        });
+        for(bodyi = 0;bodyi < BodyNum; bodyi++){
+            if(bodyi == 0){
+                if(cc.rectIntersectsRect(Food2.getBoundingBox(),Food1.getBoundingBox())){
+                    bodyi = -1;
+                    var xy = RandomXY();
+                    Food2.attr({
+                        x: xy.x,
+                        y: xy.y
+                    });
+                    continue;
+                }
+            }
+            if(cc.rectIntersectsRect(Food2.getBoundingBox(),Body[bodyi].getBoundingBox())){
+                bodyi = 0;
+                var xy = RandomXY();
+                Food2.attr({
+                    x: xy.x,
+                    y: xy.y
+                });
+            }
+        }
         FOOD2_TAG++;
         Food2.setOpacity(0);
         this.addChild(Food2,5,FOOD2_TAG);
@@ -191,6 +219,11 @@ var PlayLayer = cc.Layer.extend({
         var y = Head.y;
         var key = 0;
         if (x < Head.width/2 || x > size.width-Head.width/2 || y < Head.height/2+size.height/6 || y > -Head.height/2+size.height) this.gameover();
+        for(bodyi = 4;bodyi < BodyNum; bodyi++){
+            if(cc.rectIntersectsRect(Head.getBoundingBox(),Body[bodyi].getBoundingBox())){
+                this.gameover();
+            }
+        }
     },
     chooseColor:function(){
         var x = Math.floor(COLOR_TYPE*Math.random());
@@ -254,6 +287,10 @@ var PlayLayer = cc.Layer.extend({
             y:size.height / 2 + 100
         });
         gameOver.addChild(titleLabel, 5);
+        for(bodyi = 0;bodyi < BodyNum; bodyi++){
+            Body[bodyi].stopAllActions();
+        }
+        this.unscheduleAllCallbacks();
         var TryAgainItem = new cc.MenuItemFont(
                 "Try Again",
                 function () {
