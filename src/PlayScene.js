@@ -14,6 +14,7 @@ var BodyNum = 1;
 var zxPoint = [];
 var pPoint = 0;
 var BODYMOVE_TAG = 5000;
+var Touch_1,Touch_2,pos1;
 var PlayLayer = cc.Layer.extend({
     bgSprite:null,
     ctor:function () {
@@ -40,6 +41,53 @@ var PlayLayer = cc.Layer.extend({
         event: cc.EventListener.KEYBOARD,
         onKeyPressed:  function(keyCode, event){
             var label = event.getCurrentTarget();
+            function Move(x,y){
+                Head.stopAllActions();
+                var MoveAction =  cc.MoveBy.create(time,x,y);
+                Head.runAction(new cc.RepeatForever(MoveAction));
+            };
+            //通过判断keyCode来确定用户按下了哪个键
+            //cc.log("Key " + keyCode.toString() + " was pressed!");
+            if((keyCode-fx)!=2&&(keyCode-fx)!=-2&&keyCode!=fx&&!isOver){
+                if(fx==0){
+                    fx=39;
+                }
+                switch(keyCode){
+                    case 38:Move(0,dellong);break;//up
+                    case 37:Move(-1*dellong,0);break;//left
+                    case 39:Move(dellong,0);break;//right
+                    case 40:Move(0,-1*dellong);break;//down
+                };
+                if(keyCode-fx==3)  Head.runAction(cc.rotateBy(0.1,(keyCode-fx-4)*90));
+                else if(keyCode-fx==-3)  Head.runAction(cc.rotateBy(0.1,(keyCode-fx+4)*90));
+                else Head.runAction(cc.rotateBy(0.1,(keyCode-fx)*90));
+                
+                fx = keyCode;
+            }
+        }
+    }, this);
+        cc.eventManager.addListener({
+        event: cc.EventListener.TOUCH_ONE_BY_ONE,
+        onTouchBegan: function (touch, event) {
+            Touch_1 = touch;
+            pos1 = cc.p(Touch_1.getLocation());
+            return true;
+        },
+        onTouchEnded: function (touch, event) {
+            Touch_2 = touch;
+            pos2 = cc.p(Touch_2.getLocation());
+            delx = pos2.x - pos1.x;
+            dely = pos2.y - pos1.y;
+            keyCode = 0;
+
+            if(Math.abs(delx)>Math.abs(dely)){
+                if(delx<0) keyCode = 37;
+                else keyCode = 39;
+            }
+            else{
+                if(dely<0) keyCode = 40;
+                else keyCode = 38;
+            }
             function Move(x,y){
                 Head.stopAllActions();
                 var MoveAction =  cc.MoveBy.create(time,x,y);
@@ -161,14 +209,21 @@ var PlayLayer = cc.Layer.extend({
     },
     initGame:function(){
         time = 20;
-        speed = time*500;
+        dellong = 10000;
         fx = 0;
         HEAD_TAG = 0;
         FOOD1_TAG = 1;
         FOOD2_TAG = 100;
+        SCORE_TAG = 1000;
+        HEAD_EG_TAG =3000;
         COLOR_TYPE = 3;
         isOver = false;
         scoreNum = 0;
+        Body = [];
+        BodyNum = 1;
+        zxPoint = [];
+        pPoint = 0;
+        BODYMOVE_TAG = 5000;
         var size = cc.winSize;
 
         //ScoreLable
@@ -193,10 +248,10 @@ var PlayLayer = cc.Layer.extend({
         Head.stopAllActions();
         var gameOver = new cc.LayerColor(cc.color(225,225,225,100));
         var size = cc.winSize;
-        var titleLabel = new cc.LabelTTF("Game Over", "Arial", 60);
+        var titleLabel = new cc.LabelTTF("Game Over", "Arial", 150);
         titleLabel.attr({
             x:size.width / 2 ,
-            y:size.height / 2
+            y:size.height / 2 + 100
         });
         gameOver.addChild(titleLabel, 5);
         var TryAgainItem = new cc.MenuItemFont(
@@ -206,9 +261,10 @@ var PlayLayer = cc.Layer.extend({
                     var transition= cc.TransitionFade.create(1, new PlayScene(),cc.color(255,255,255,255));
                     cc.director.runScene(transition);
                 }, this);
+        TryAgainItem.fontSize = 100;
         TryAgainItem.attr({
             x: size.width/2,
-            y: size.height / 2 - 60,
+            y: size.height / 2 - 100,
             anchorX: 0.5,
             anchorY: 0.5
         });
