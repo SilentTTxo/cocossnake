@@ -194,7 +194,7 @@ var PlayLayer = cc.Layer.extend({
         this.addChild(Head,5,HEAD_TAG);
         Body[0] = Head;
     },
-    update:function(){
+    isEat:function(){
         var size = cc.winSize;
         var Head = this.getChildByTag(HEAD_TAG);
         var Food1 = this.getChildByTag(FOOD1_TAG);
@@ -214,7 +214,13 @@ var PlayLayer = cc.Layer.extend({
             setTimeout(this.removeChild(Food1,true),0.2);
             setTimeout(this.removeChild(Food2,true),0.2);  
             //this.removeChild(Food,true);
+
+            this.isSkillOk();
         }
+    },
+    isGameover:function(){
+        var size = cc.winSize;
+        var Head = this.getChildByTag(HEAD_TAG);
         var x = Head.x;
         var y = Head.y;
         var key = 0;
@@ -224,6 +230,73 @@ var PlayLayer = cc.Layer.extend({
                 this.gameover();
             }
         }
+    },
+    isSkillOk:function(){
+        function GetColor(x){
+            color = x.displayFrame()._texture.url;
+            switch(color){
+                case "res/Red.png":return 'R';
+                case "res/Blue.png":return 'B';
+                case "res/Yellow.png":return 'Y';
+            }
+            return 'S';
+        }
+        function SetSkill(i,skillcolor,THIS){
+            SkillTable = [
+            {
+                color:"RRR",
+                pngurl:"res/YellowB.png",
+                skillname:"SpeedUP"
+            }
+            ];
+
+            var Skill =  null;
+            for(y =0;y<SkillTable.length;y++){
+                if(SkillTable[y].color==skillcolor) Skill=SkillTable[y];
+            }
+            if(Skill == null) return false;
+            var temp = cc.p(Body[i].x,Body[i].y);
+            for(cont = 0; cont < 2; cont++){
+                for(bodyi = i - 2 ;bodyi < BodyNum-1; bodyi++){
+                    THIS.removeChild(Body[bodyi],true);
+                    Body[bodyi] = Body[bodyi+1];
+                }
+            }
+            THIS.removeChild(Body[i-2],true);
+            Body[i-2] = new cc.Sprite(Skill.pngurl);
+            Body[i-2].attr({
+                x:temp.x,
+                y:temp.y
+            });
+            THIS.addChild(Body[i-2],5);
+            BodyNum-=2;
+        }
+        SkillColor = "";
+        si = 0;
+        for(bodyi = 1;bodyi < BodyNum; bodyi++){
+            if(bodyi >= BodyNum - 2 && si == 0) return ;
+            if(GetColor(Body[bodyi])!='S'){
+                SkillColor+=GetColor(Body[bodyi]);
+                si++;
+                if(si == 3) {
+                    //choose skill
+                    //cc.log(SkillColor);
+                    if(!SetSkill(bodyi,SkillColor,this)){
+                        si = 0;
+                        bodyi -= 2;
+                        SkillColor = "";
+                    }
+                }
+            }
+            else {
+                si = 0;
+                SkillColor = "";
+            }
+        }
+    },
+    update:function(){
+        this.isEat();
+        this.isGameover();
     },
     chooseColor:function(){
         var x = Math.floor(COLOR_TYPE*Math.random());

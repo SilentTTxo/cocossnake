@@ -309,26 +309,6 @@ cc.DrawingPrimitiveCanvas = cc.Class.extend(/** @lends cc.DrawingPrimitiveCanvas
      * @param {cc.Size} destSize
      */
     drawImage:function (image, sourcePoint, sourceSize, destPoint, destSize) {
-        var ctx = this._renderContext;
-        (function (canvas, ctx) {
-        var devicePixelRatio = window.devicePixelRatio || 1;
-        var backingStorePixelRatio = ctx.webkitBackingStorePixelRatio ||
-        ctx.mozBackingStorePixelRatio ||
-        ctx.msBackingStorePixelRatio ||
-        ctx.oBackingStorePixelRatio ||
-        ctx.backingStorePixelRatio || 1;
-
-
-var ratio = devicePixelRatio / backingStorePixelRatio;
-
-
-if (devicePixelRatio !== backingStorePixelRatio) {
-sourceSize.width *= ratio;
-sourceSize.height *= ratio;
-ctx.scale(ratio, ratio);
-}
-
-})(canvas, ctx);
         var len = arguments.length;
         var ctx = this._renderContext.getContext();
         switch (len) {
