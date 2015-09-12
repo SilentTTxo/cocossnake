@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/cocos/platform/android/ControllerManualAdapter/ControllerManualAdapter.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/cocos/platform/android/ControllerManualAdapter/ControllerManualAdapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/cocos/platform/android/java/android.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/cocos/platform/android/java/android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/frameworks/runtime-src/proj.android-studio/app/app.iml" filepath="$PROJECT_DIR$/frameworks/runtime-src/proj.android-studio/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/cocos/platform/android/libcocos2dx/libcocos2dx.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/cocos/platform/android/libcocos2dx/libcocos2dx.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/cocos/platform/android/libcocos2dx-with-controller/libcocos2dx-with-controller.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/cocos/platform/android/libcocos2dx-with-controller/libcocos2dx-with-controller.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/googleplay/proj.android/proj.android.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/googleplay/proj.android/proj.android.iml" />
@@ -13,7 +12,6 @@
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/weibo/proj.android/proj.android11.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/weibo/proj.android/proj.android11.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/twitter/proj.android/proj.android12.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/twitter/proj.android/proj.android12.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/uc/proj.android/proj.android13.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/uc/proj.android/proj.android13.iml" />
-      <module fileurl="file://$PROJECT_DIR$/frameworks/runtime-src/proj.android/proj.android14.iml" filepath="$PROJECT_DIR$/frameworks/runtime-src/proj.android/proj.android14.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/umeng/proj.android/proj.android2.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/umeng/proj.android/proj.android2.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/qh360/proj.android/proj.android3.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/qh360/proj.android/proj.android3.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/facebookads/proj.android/proj.android4.iml" filepath="$PROJECT_DIR$/frameworks/cocos2d-x/plugin/plugins/facebookads/proj.android/proj.android4.iml" />

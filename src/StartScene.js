@@ -23,7 +23,7 @@ var StartLayer = cc.Layer.extend({
             res.Start_S_png,
             function () {
                 cc.log("Menu is clicked!");
-                cc.director.runScene( cc.TransitionPageTurn.create(1, new PlayScene(), false) );
+                cc.director.runScene( cc.TransitionJumpZoom.create(1, new PlayScene(), false) );
             }, this);
     startItem.attr({
         x: size.width/2,
