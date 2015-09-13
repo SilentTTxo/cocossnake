@@ -10,6 +10,9 @@ var res = {
     Red_png : "res/Red.png",
     Blue_png : "res/Blue.png",
     YellowB_png : "res/YellowB.png",
+    BlueB_png : "res/BlueB.png",
+    RedB_png : "res/RedB.png",
+    NoSkill_png : "res/NoSkill.png",
     Head_png : "res/Head.png"
 };
 

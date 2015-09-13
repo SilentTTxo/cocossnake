@@ -14,12 +14,31 @@ var BodyNum = 1;
 var zxPoint = [];
 var pPoint = 0;
 var BODYMOVE_TAG = 5000;
+var isSkillOpen = false;
+var Game ;
 var Touch_1,Touch_2,pos1;
+SkillTable = [
+            {
+                color:"RRR",
+                pngurl:"res/RedB.png",
+                skillname:"SpeedUP",
+                SkillDo:function(){
+                    cc.log(dellong);
+                    dellong*=3;
+                    cc.log(dellong);  
+                    setTimeout(function(){
+                        dellong/=3;
+                        isSkillOpen = false;
+                    },3000);
+                }
+            }
+            ];
 var PlayLayer = cc.Layer.extend({
     bgSprite:null,
     ctor:function () {
         this._super();
         this.initGame();
+        Game = this;
 
         var size = cc.winSize;
 
@@ -46,6 +65,28 @@ var PlayLayer = cc.Layer.extend({
                 var MoveAction =  cc.MoveBy.create(time,x,y);
                 Head.runAction(new cc.RepeatForever(MoveAction));
             };
+            if(keyCode==32){
+                cc.log("Skill!");
+                for(bodyi = 1;bodyi < BodyNum ; bodyi++){
+                    for(i = 0;i < SkillTable.length;i++){
+                        if(Body[bodyi].displayFrame()._texture.url == SkillTable[i].pngurl){
+                            isSkillOpen = true;
+                            SkillTable[i].SkillDo();
+                            Game.removeChild(Body[bodyi],true);
+                            Body[bodyi] = new cc.Sprite(res.NoSkill_png);
+                            Game.addChild(Body[bodyi],5);
+                            switch(fx){
+                                case 38:Move(0,dellong);break;//up
+                                case 37:Move(-1*dellong,0);break;//left
+                                case 39:Move(dellong,0);break;//right
+                                case 40:Move(0,-1*dellong);break;//down
+                            }
+                            return;
+                        }
+                    }
+                }
+                return ;
+            }
             //通过判断keyCode来确定用户按下了哪个键
             //cc.log("Key " + keyCode.toString() + " was pressed!");
             if((keyCode-fx)!=2&&(keyCode-fx)!=-2&&keyCode!=fx&&!isOver){
@@ -78,6 +119,34 @@ var PlayLayer = cc.Layer.extend({
             pos2 = cc.p(Touch_2.getLocation());
             delx = pos2.x - pos1.x;
             dely = pos2.y - pos1.y;
+            function Move(x,y){
+                Head.stopAllActions();
+                var MoveAction =  cc.MoveBy.create(time,x,y);
+                Head.runAction(new cc.RepeatForever(MoveAction));
+            };
+            //单击事件
+            if(delx == 0 && dely == 0) {
+                cc.log("Single click!");
+                for(bodyi = 1;bodyi < BodyNum ; bodyi++){
+                    for(i = 0;i < SkillTable.length;i++){
+                        if(Body[bodyi].displayFrame()._texture.url == SkillTable[i].pngurl){
+                            isSkillOpen = true;
+                            SkillTable[i].SkillDo();
+                            Game.removeChild(Body[bodyi],true);
+                            Body[bodyi] = new cc.Sprite(res.NoSkill_png);
+                            Game.addChild(Body[bodyi],5);
+                            switch(fx){
+                                case 38:Move(0,dellong);break;//up
+                                case 37:Move(-1*dellong,0);break;//left
+                                case 39:Move(dellong,0);break;//right
+                                case 40:Move(0,-1*dellong);break;//down
+                            }
+                            return;
+                        }
+                    }
+                }
+                return ;
+            }
             keyCode = 0;
 
             if(Math.abs(delx)>Math.abs(dely)){
@@ -88,11 +157,6 @@ var PlayLayer = cc.Layer.extend({
                 if(dely<0) keyCode = 40;
                 else keyCode = 38;
             }
-            function Move(x,y){
-                Head.stopAllActions();
-                var MoveAction =  cc.MoveBy.create(time,x,y);
-                Head.runAction(new cc.RepeatForever(MoveAction));
-            };
             //通过判断keyCode来确定用户按下了哪个键
             //cc.log("Key " + keyCode.toString() + " was pressed!");
             if((keyCode-fx)!=2&&(keyCode-fx)!=-2&&keyCode!=fx&&!isOver){
@@ -242,13 +306,6 @@ var PlayLayer = cc.Layer.extend({
             return 'S';
         }
         function SetSkill(i,skillcolor,THIS){
-            SkillTable = [
-            {
-                color:"RRR",
-                pngurl:"res/YellowB.png",
-                skillname:"SpeedUP"
-            }
-            ];
 
             var Skill =  null;
             for(y =0;y<SkillTable.length;y++){
@@ -309,9 +366,9 @@ var PlayLayer = cc.Layer.extend({
         scoreNum+=delta;
         Scoreee.setString(scoreNum);
         dellong += 200;
-        if(dellong>=25000) dellong=25000;
+        if(dellong>=25000 && !isSkillOpen) dellong=25000;
 
-        cc.log(dellong/time);
+        cc.log(dellong+"/"+time+"="+dellong/time);
     },
     initGame:function(){
         time = 20;
@@ -330,7 +387,8 @@ var PlayLayer = cc.Layer.extend({
         zxPoint = [];
         pPoint = 0;
         BODYMOVE_TAG = 5000;
-        var size = cc.winSize;
+        isSkillOpen = false;
+        size = cc.winSize;
 
         //ScoreLable
         var scoreText = new cc.LabelTTF("0", "Arial", 60);
