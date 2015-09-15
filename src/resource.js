@@ -8,6 +8,7 @@ var res = {
     Start_S_png : "res/MenuStartS.png",
     Yellow_png : "res/Yellow.png",
     Red_png : "res/Red.png",
+    s_fire : "res/fire.png",
     Blue_png : "res/Blue.png",
     YellowB_png : "res/YellowB.png",
     BlueB_png : "res/BlueB.png",

@@ -1,5 +1,5 @@
 var time = 20;
-var dellong = 10000;
+var dellong = 7500;
 var fx = 0;
 var HEAD_TAG = 0;
 var FOOD1_TAG = 1;
@@ -15,6 +15,7 @@ var zxPoint = [];
 var pPoint = 0;
 var BODYMOVE_TAG = 5000;
 var isSkillOpen = false;
+var ScoreDel = 10;
 var Game ;
 var Touch_1,Touch_2,pos1;
 SkillTable = [
@@ -24,14 +25,36 @@ SkillTable = [
                 skillname:"SpeedUP",
                 SkillDo:function(){
                     cc.log(dellong);
-                    dellong*=3;
-                    cc.log(dellong);  
+                    dellong*=2;
+                    cc.log(dellong);
+                    //var Head = Game.getChildByTag(HEAD_TAG);
+                    var Fire = cc.ParticleFire.create();
+                    Fire.texture = cc.textureCache.addImage("res/fire.png");
+                    Fire.x = 0;
+                    Fire.y = 0;
+                    Fire.duration = 3;
+                    Body[1].addChild(Fire); 
                     setTimeout(function(){
-                        dellong/=3;
+                        dellong/=2;
+                        isSkillOpen = false;
+                        setTimeout(function(){
+                            Body[1].removeChild(Fire,true);
+                        },2000);
+                    },3000);
+                }
+            },
+            {
+                color:"BBB",
+                pngurl:"res/BlueB.png",
+                skillname:"ScoreUP",
+                SkillDo:function(){
+                    ScoreDel*=2;  
+                    setTimeout(function(){
+                        ScoreDel/=2;;
                         isSkillOpen = false;
                     },3000);
                 }
-            }
+            },
             ];
 var PlayLayer = cc.Layer.extend({
     bgSprite:null,
@@ -71,10 +94,15 @@ var PlayLayer = cc.Layer.extend({
                     for(i = 0;i < SkillTable.length;i++){
                         if(Body[bodyi].displayFrame()._texture.url == SkillTable[i].pngurl){
                             isSkillOpen = true;
-                            SkillTable[i].SkillDo();
+                            Point = cc.p(Body[bodyi].x,Body[bodyi].y);
                             Game.removeChild(Body[bodyi],true);
                             Body[bodyi] = new cc.Sprite(res.NoSkill_png);
+                            Body[bodyi].attr({
+                                x:Point.x,
+                                y:Point.y
+                            });
                             Game.addChild(Body[bodyi],5);
+                            SkillTable[i].SkillDo();
                             switch(fx){
                                 case 38:Move(0,dellong);break;//up
                                 case 37:Move(-1*dellong,0);break;//left
@@ -131,10 +159,10 @@ var PlayLayer = cc.Layer.extend({
                     for(i = 0;i < SkillTable.length;i++){
                         if(Body[bodyi].displayFrame()._texture.url == SkillTable[i].pngurl){
                             isSkillOpen = true;
-                            SkillTable[i].SkillDo();
                             Game.removeChild(Body[bodyi],true);
                             Body[bodyi] = new cc.Sprite(res.NoSkill_png);
                             Game.addChild(Body[bodyi],5);
+                            SkillTable[i].SkillDo();
                             switch(fx){
                                 case 38:Move(0,dellong);break;//up
                                 case 37:Move(-1*dellong,0);break;//left
@@ -271,7 +299,7 @@ var PlayLayer = cc.Layer.extend({
             if(cc.rectIntersectsRect(hBox,fBox1)) color = Food1.displayFrame()._texture.url;
             if(cc.rectIntersectsRect(hBox,fBox2)) color = Food2.displayFrame()._texture.url;
             this.addBody(color);
-            this.addScore(10);
+            this.addScore(ScoreDel);
             this.addFood();
             Food1.runAction(cc.FadeOut.create(0.2));
             Food2.runAction(cc.FadeOut.create(0.2));
@@ -289,7 +317,7 @@ var PlayLayer = cc.Layer.extend({
         var y = Head.y;
         var key = 0;
         if (x < Head.width/2 || x > size.width-Head.width/2 || y < Head.height/2+size.height/6 || y > -Head.height/2+size.height) this.gameover();
-        for(bodyi = 4;bodyi < BodyNum; bodyi++){
+        for(bodyi = 6;bodyi < BodyNum; bodyi++){
             if(cc.rectIntersectsRect(Head.getBoundingBox(),Body[bodyi].getBoundingBox())){
                 this.gameover();
             }
@@ -372,7 +400,7 @@ var PlayLayer = cc.Layer.extend({
     },
     initGame:function(){
         time = 20;
-        dellong = 10000;
+        dellong = 7500;
         fx = 0;
         HEAD_TAG = 0;
         FOOD1_TAG = 1;
@@ -451,7 +479,7 @@ var PlayLayer = cc.Layer.extend({
         for(bodyi = 1;bodyi < BodyNum;bodyi ++){
             Body[bodyi].stopAllActions();
             var juli = Math.sqrt(Math.pow(Body[bodyi].x-Body[bodyi-1].x,2)+Math.pow(Body[bodyi].y-Body[bodyi-1].y,2));
-            var move = new cc.MoveTo.create(0.7*juli*time/dellong,Body[bodyi-1].x,Body[bodyi-1].y);
+            var move = new cc.MoveTo.create(0.8*juli*time/dellong,Body[bodyi-1].x,Body[bodyi-1].y);
             //cc.log("snake Speed:"+dellong/time+"|bodyjuli:"+juli*time/dellong);
             Body[bodyi].runAction(move);
         }
