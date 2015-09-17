@@ -15,6 +15,7 @@ var res = {
     RedB_png : "res/RedB.png",
     NoSkill_png : "res/NoSkill.png",
     Head_png : "res/Head.png",
+    skillOk_wav : "res/skillOk.wav",
     eat_wav : "res/eat.wav",
     fireSkill_wav : "res/fireSkill.wav"
 };

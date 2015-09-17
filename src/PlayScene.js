@@ -356,6 +356,7 @@ var PlayLayer = cc.Layer.extend({
             });
             THIS.addChild(Body[i-2],5);
             BodyNum-=2;
+            cc.audioEngine.playEffect(res.skillOk_wav);
         }
         SkillColor = "";
         si = 0;
