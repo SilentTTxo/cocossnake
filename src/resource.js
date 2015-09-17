@@ -8,13 +8,15 @@ var res = {
     Start_S_png : "res/MenuStartS.png",
     Yellow_png : "res/Yellow.png",
     Red_png : "res/Red.png",
-    s_fire : "res/fire.png",
+    s_fire : "res/Red-3.plist",
     Blue_png : "res/Blue.png",
     YellowB_png : "res/YellowB.png",
     BlueB_png : "res/BlueB.png",
     RedB_png : "res/RedB.png",
     NoSkill_png : "res/NoSkill.png",
-    Head_png : "res/Head.png"
+    Head_png : "res/Head.png",
+    eat_wav : "res/eat.wav",
+    fireSkill_wav : "res/fireSkill.wav"
 };
 
 var g_resources = [];

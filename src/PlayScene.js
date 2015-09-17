@@ -28,12 +28,12 @@ SkillTable = [
                     dellong*=2;
                     cc.log(dellong);
                     //var Head = Game.getChildByTag(HEAD_TAG);
-                    var Fire = cc.ParticleFire.create();
-                    Fire.texture = cc.textureCache.addImage("res/fire.png");
+                    cc.audioEngine.playEffect(res.fireSkill_wav);
+                    var Fire = cc.ParticleSystem.create(res.s_fire);
                     Fire.x = 0;
                     Fire.y = 0;
                     Fire.duration = 3;
-                    Body[1].addChild(Fire); 
+                    Body[1].addChild(Fire,5); 
                     setTimeout(function(){
                         dellong/=2;
                         isSkillOpen = false;
@@ -295,6 +295,7 @@ var PlayLayer = cc.Layer.extend({
         var fBox1 = Food1.getBoundingBox();
         var fBox2 = Food2.getBoundingBox();
         if(cc.rectIntersectsRect(hBox,fBox1)||cc.rectIntersectsRect(hBox,fBox2)){
+            cc.audioEngine.playEffect(res.eat_wav);
             var color = "";
             if(cc.rectIntersectsRect(hBox,fBox1)) color = Food1.displayFrame()._texture.url;
             if(cc.rectIntersectsRect(hBox,fBox2)) color = Food2.displayFrame()._texture.url;
