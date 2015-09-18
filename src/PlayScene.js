@@ -24,9 +24,7 @@ SkillTable = [
                 pngurl:"res/RedB.png",
                 skillname:"SpeedUP",
                 SkillDo:function(){
-                    cc.log(dellong);
                     dellong*=2;
-                    cc.log(dellong);
                     //var Head = Game.getChildByTag(HEAD_TAG);
                     cc.audioEngine.playEffect(res.fireSkill_wav);
                     var Fire = cc.ParticleSystem.create(res.s_fire);
@@ -48,9 +46,33 @@ SkillTable = [
                 pngurl:"res/BlueB.png",
                 skillname:"ScoreUP",
                 SkillDo:function(){
-                    ScoreDel*=2;  
+                    ScoreDel*=2;
+                    var ScoreAdd = cc.ParticleSystem.create(res.s_score);
+                    ScoreAdd.x = 220;
+                    ScoreAdd.y = 170;
+                    ScoreAdd.duration = 3;
+                    cc.audioEngine.playEffect(res.skillScore_wav);
+                    Game.addChild(ScoreAdd,5);  
                     setTimeout(function(){
                         ScoreDel/=2;;
+                        isSkillOpen = false;
+                    },3000);
+                }
+            },
+            {
+                color:"YYY",
+                pngurl:"res/YellowB.png",
+                skillname:"speedDown",
+                SkillDo:function(){
+                    dellong /= 2;
+                    var speedDown = cc.ParticleSystem.create(res.s_snow);
+                    speedDown.x = 540;
+                    speedDown.y = 960;
+                    speedDown.duration = 3;
+                    cc.audioEngine.playEffect(res.skillScore_wav);
+                    Game.addChild(speedDown,5);  
+                    setTimeout(function(){
+                        dellong *= 2 ;
                         isSkillOpen = false;
                     },3000);
                 }
